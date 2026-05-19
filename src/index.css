@@ -76,6 +76,29 @@ html {
 
   background: linear-gradient(
     120deg,
+    #0f172a 0%,
+    #334155 20%,
+    #2563eb 50%,
+    #475569 80%,
+    #0f172a 100%
+  );
+
+  background-size: 200% auto;
+
+  color: transparent;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  animation:
+    fadeInUp 0.5s ease forwards,
+    shine 8s linear infinite;
+}
+
+.dark .animate-title,
+.dark .animate-heading {
+  background: linear-gradient(
+    120deg,
     #ffffff 0%,
     #f1f5f9 20%,
     #1e293b 50%,
@@ -85,12 +108,10 @@ html {
 
   background-size: 200% auto;
 
+  color: transparent;
+
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-
-  animation:
-    fadeInUp 0.5s ease forwards,
-    shine 8s linear infinite;
 }
 
 
