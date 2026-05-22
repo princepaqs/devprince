@@ -64,7 +64,7 @@ export default function App() {
 
 
   const [chatOpen, setChatOpen] = useState(false);
-  const messagesEndRef = useRef(null);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   
 
@@ -75,7 +75,7 @@ export default function App() {
     },
   ]);
 
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState<string>("");
   const [showSuggestions, setShowSuggestions] = useState(true);
 
   const suggestions = [
@@ -224,7 +224,7 @@ export default function App() {
 - contact`;
   };
 
-  const sendMessage = (customText = null) => {
+  const sendMessage = (customText: string | null = null) => {
     const finalMessage = customText || input;
 
     if (!finalMessage.trim()) return;
