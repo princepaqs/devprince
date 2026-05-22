@@ -16,6 +16,7 @@ import {
   ChevronDown,
   ChevronUp,
   Menu,
+  Loader2,
 } from "lucide-react";
 
 import {
@@ -51,7 +52,7 @@ import {
 export default function App() {
   const [darkMode, setDarkMode] = useState(true);
     const [mobileMenu, setMobileMenu] = useState(false);
-
+  const [sending, setSending] = useState(false);
   useEffect(() => {
     const root = document.documentElement;
 
@@ -607,12 +608,14 @@ useEffect(() => {
 }, []);
 
 
-  const sendEmail = (
+  const sendEmail = async (
     e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
 
     const form = e.currentTarget;
+
+    setSending(true);
 
     const now = new Date();
 
@@ -638,14 +641,14 @@ useEffect(() => {
       form.appendChild(time);
     }
 
-    emailjs
-      .sendForm(
+    try {
+      await emailjs.sendForm(
         "service_j4xmz6e",
         "template_cy5c77p",
         form,
-      "MXcKRUXgUP_6ZMGBX"
-    )
-    .then(() => {
+        "MXcKRUXgUP_6ZMGBX"
+      );
+
       setEmailStatus("success");
 
       setEmailMessage(
@@ -655,8 +658,7 @@ useEffect(() => {
       setEmailModal(true);
 
       form.reset();
-    })
-    .catch((error) => {
+    } catch (error) {
       console.log(error);
 
       setEmailStatus("error");
@@ -666,7 +668,9 @@ useEffect(() => {
       );
 
       setEmailModal(true);
-    });
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -993,7 +997,7 @@ useEffect(() => {
           </a>
 
           <a
-            href="https://mail.google.com/mail/?view=cm&fs=1&to=princepaquiado20@gmail.com&su=Portfolio%20Inquiry&body=Hello%20Prince,"
+            href="#contact"
             target="_blank"
             rel="noopener noreferrer"
             className="
@@ -1532,17 +1536,41 @@ useEffect(() => {
 
             <button
               type="submit"
+              disabled={sending}
               className="
-                w-full rounded-2xl
+                flex
+                w-full
+                items-center
+                justify-center
+                gap-2
+                rounded-2xl
                 bg-blue-600
-                px-6 py-3
-                text-sm font-semibold text-white
+                px-6
+                py-3
+                text-sm
+                font-semibold
+                text-white
                 transition-all
                 hover:-translate-y-1
                 hover:bg-blue-700
+                disabled:cursor-not-allowed
+                disabled:opacity-70
               "
             >
-              Send Message
+              {sending ? (
+                <>
+                  <Loader2
+                    size={18}
+                    className="animate-spin"
+                  />
+                  Sending...
+                </>
+              ) : (
+                <>
+                  <Send size={18} />
+                  Send Message
+                </>
+              )}
             </button>
           </form>
         </div>
